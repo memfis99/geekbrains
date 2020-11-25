@@ -1,0 +1,188 @@
+------------------1---------------------- 
+memfis@ubuntu:~$ cd /etc         -- go to etc
+memfis@ubuntu:/etc$ ls -al       -- listing etc
+memfis@ubuntu:/etc$ cd /home     -- go to home
+memfis@ubuntu:/home$ ls -al      -- listing home 
+memfis@ubuntu:/home$ cd /proc    -- go to proc
+memfis@ubuntu:/proc$ ls -al      -- listing proc
+
+memfis@ubuntu:/proc$ cd /etc          -- go to etc
+memfis@ubuntu:/etc$ cat xattr.conf    --read file in etc
+# /etc/xattr.conf
+#
+# Format:
+# <pattern> <action>
+#
+# Actions:
+#   permissions - copy when trying to preserve permissions.
+#   skip - do not copy.
+
+system.nfs4_acl                 permissions
+system.nfs4acl                  permissions
+system.posix_acl_access         permissions
+system.posix_acl_default        permissions
+trusted.SGI_ACL_DEFAULT         skip            # xfs specific
+trusted.SGI_ACL_FILE            skip            # xfs specific
+trusted.SGI_CAP_FILE            skip            # xfs specific
+trusted.SGI_DMI_*               skip            # xfs specific
+trusted.SGI_MAC_FILE            skip            # xfs specific
+xfsroot.*                       skip            # xfs specific; obsolete
+user.Beagle.*                   skip            # ignore Beagle index data
+security.evm                    skip            # may only be written by kernel
+memfis@ubuntu:/etc$ cat libao.conf  --read file in etc
+default_driver=pulse
+quiet
+memfis@ubuntu:/etc$
+
+   
+-------------------2----------------------
+memfis@ubuntu:~$ touch file1                     -- create file 1
+memfis@ubuntu:~$ vi file1                        -- edit file 1
+memfis@ubuntu:~$ memfis@ubuntu:~$ cat file1      -- listing file 1
+test1
+memfis@ubuntu:~$ cat file1 > file2               --write file 1 in file 2
+memfis@ubuntu:~$ cat file2                       --read file 2 
+test1
+memfis@ubuntu:~$ cat file1 file2 > file3         -- write file 1 and file 2 in file 3
+memfis@ubuntu:~$ cat file3                       -- read file 3
+test1 
+test1
+memfis@ubuntu:~$   
+
+------------------3-----------------------
+memfis@ubuntu:/etc$ cd /home/memfis
+memfis@ubuntu:~$ ls -al|grep file                      
+-rw-rw-r--  1 memfis memfis    6 Nov 25 03:22 file1
+-rw-rw-r--  1 memfis memfis    6 Nov 25 03:23 file2
+-rw-rw-r--  1 memfis memfis   12 Nov 25 03:24 file3
+-rw-r--r--  1 memfis memfis  807 Nov 21 04:53 .profile
+memfis@ubuntu:~$ touch job1 job2                       --create 2 file 
+memfis@ubuntu:~$ ls -al|grep job                     
+-rw-rw-r--  1 memfis memfis    0 Nov 25 03:34 job1
+-rw-rw-r--  1 memfis memfis    0 Nov 25 03:34 job2
+memfis@ubuntu:~$ mkdir testdir                         -- create directory
+memfis@ubuntu:~$ mv job1 job2 testdir                  -- move file in directory
+memfis@ubuntu:~$ cd testdir/
+memfis@ubuntu:~/testdir$ ls -al|grep job
+-rw-rw-r--  1 memfis memfis    0 Nov 25 03:34 job1
+-rw-rw-r--  1 memfis memfis    0 Nov 25 03:34 job2
+
+memfis@ubuntu:~$ ls -al|grep file
+-rw-rw-r--  1 memfis memfis    6 Nov 25 03:22 file1
+-rw-rw-r--  1 memfis memfis    6 Nov 25 03:23 file2
+-rw-rw-r--  1 memfis memfis   12 Nov 25 03:24 file3
+-rw-r--r--  1 memfis memfis  807 Nov 21 04:53 .profile
+memfis@ubuntu:~$ rm file*                                -- del file
+memfis@ubuntu:~$ ls -al|grep file
+-rw-r--r--  1 memfis memfis  807 Nov 21 04:53 .profile
+memfis@ubuntu:~$ 
+memfis@ubuntu:~$ rm -rf testdir/                         -- del dir with file
+
+memfis@ubuntu:~$ find -maxdepth 1 -type f  -name ".*"
+./.bash_history
+./.selected_editor
+./.profile
+./.sudo_as_admin_successful
+./.bash_logout
+./.viminfo
+./.bashrc
+memfis@ubuntu:~$ find -maxdepth 1 -type f  -name ".*" |wc -l  --  count hidden files. Answer 7
+7
+memfis@ubuntu:~$ pwd
+/home/memfis
+memfis@ubuntu:~$  
+
+------------------4-----------------------
+memfis@ubuntu:~$ cat /etc/* 2> /home/memfis/ErrList  -- listing etc directory and wrire err in file
+memfis@ubuntu:~$ cat /home/memfis/ErrList | wc -l    -- count err in file. Answer 135 
+135
+
+-----------------5------------------------
+memfis@ubuntu:~$ mc                   -- start mc
+memfis@ubuntu:~$ ps -ef|grep mc       -- find process mc in other terminal pid 4228
+memfis      4228    2823  0 06:45 pts/1    00:00:00 mc
+memfis      4245    4221  0 06:48 pts/2    00:00:00 grep --color=auto mc
+memfis@ubuntu:~$ kill -9 4228         -- kill proc mc with code -9
+
+memfis@ubuntu:~$ ps -ef|grep mc
+memfis      4277    2823  0 06:59 pts/1    00:00:00 mc
+memfis      4291    4221  0 07:00 pts/2    00:00:00 grep --color=auto mc
+memfis@ubuntu:~$ kill -2 4277         -- code -2 not kill process
+
+memfis@ubuntu:~$ ps -ef|grep mc
+memfis      4277    2823  0 06:59 pts/1    00:00:00 mc
+memfis      4293    4221  0 07:01 pts/2    00:00:00 grep --color=auto mc
+memfis@ubuntu:~$ kill -8 4277           -- code -8 end with massage Floating point exception (core dumped) and dump
+
+memfis@ubuntu:~$ ps -ef|grep mc
+memfis      4321    2823  0 07:04 pts/1    00:00:00 mc
+memfis      4330    4221  0 07:04 pts/2    00:00:00 grep --color=auto mc
+memfis@ubuntu:~$ kill -11 4321     -- code -11 end with massage Segmentation fault (core dumped)
+
+memfis@ubuntu:~$ ps -ef|grep mc
+memfis      4352    2823  0 07:05 pts/1    00:00:00 mc
+memfis      4361    4221  0 07:05 pts/2    00:00:00 grep --color=auto mc
+memfis@ubuntu:~$ kill -15 4352     -- code -15 end with massage  Terminated
+
+
+-----------------6-------------------------
+memfis@ubuntu:~$ ls -al|tr -s ' '|cut -d ' ' -f 1   -- pint only fild with grand access
+total
+drwxr-xr-x
+drwxr-xr-x
+-rw-------
+-rw-r--r--
+-rw-r--r--
+drwx------
+drwx------
+drwxr-xr-x
+drwxr-xr-x
+drwxr-xr-x
+-rw-rw-r--
+drwx------
+drwxr-xr-x
+drwx------
+drwxr-xr-x
+drwxr-xr-x
+-rw-r--r--
+drwxr-xr-x
+-rw-rw-r--
+-rw-rw-r--
+drwx------
+-rw-r--r--
+drwxr-xr-x
+drwxr-xr-x
+-rw-------
+memfis@ubuntu:~$ ls -aldA * .*|tr -s ' '|cut -d ' ' -f 1|uniq -u|sort  
+drwx------
+drwx------
+drwx------
+drwxr-xr-x
+drwxr-xr-x
+-rw-------
+-rw-------
+-rw-r--r--
+-rw-r--r--
+-rw-rw-r--
+memfis@ubuntu:~$ ls -aldA * .*|tr -s ' '|cut -d ' ' -f 1|uniq -u|sort|wc -l  -count uniq  grant access
+10
+---or---
+memfis@ubuntu:~$ ls -al|tr -s ' '|cut -d ' ' -f 1|uniq -u|sort| head -n +10
+drwx------
+drwx------
+drwx------
+drwxr-xr-x
+drwxr-xr-x
+-rw-------
+-rw-------
+-rw-r--r--
+-rw-r--r--
+-rw-rw-r--
+memfis@ubuntu:~$ ls -al|tr -s ' '|cut -d ' ' -f 1|uniq -u|sort| head -n +10|wc -l
+10
+
+
+
+
+
+
