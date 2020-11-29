@@ -1,0 +1,154 @@
+-------------------1-------------------
+memfis@ubuntu:~$ touch file1
+memfis@ubuntu:~$ echo test>file1
+memfis@ubuntu:~$ cp file1 file2 
+memfis@ubuntu:~$ ln -s file1 file3
+memfis@ubuntu:~$ ln file1 file4
+memfis@ubuntu:~$ ls -il|grep file|tr -s ' '|cut -d ' ' -f 1,10
+410651 file1
+410646 file2
+410650 file3
+410651 file4
+memfis@ubuntu:~$ rm file1
+memfis@ubuntu:~$ cat file2 file3 file4
+test
+cat: file3: No such file or directory
+test
+memfis@ubuntu:~$ ls -ial|grep file3
+410650 lrwxrwxrwx  1 memfis memfis      5 Nov 29 00:16 file3 -> file1
+
+----------------------2-----------------
+memfis@ubuntu:~$ mv file2 typ2
+memfis@ubuntu:~$ mv file3 typ3
+memfis@ubuntu:~$ mv file4 typ4
+memfis@ubuntu:~$ mkdir dirtype
+memfis@ubuntu:~$ mv typ3 /home/memfis/dirtype
+memfis@ubuntu:~/dirtype$ ls -l
+total 0
+lrwxrwxrwx 1 memfis memfis 5 Nov 29 00:16 typ3 -> file1
+memfis@ubuntu:~$ echo less3>random1
+memfis@ubuntu:~$ echo less3>random2
+memfis@ubuntu:~$ chmod ug=rw,o=r random1
+memfis@ubuntu:~$ chmod u=rw,go=- random2
+memfis@ubuntu:~$ ls -l|grep random
+-rw-rw-r-- 1 memfis memfis      6 Nov 29 01:12 random1
+-rw------- 1 memfis memfis      6 Nov 29 01:12 random2
+memfis@ubuntu:~$ chmod 664 random1
+memfis@ubuntu:~$ chmod 600 random2
+memfis@ubuntu:~$ ls -l|grep random
+-rw-rw-r-- 1 memfis memfis      6 Nov 29 01:12 random1
+-rw------- 1 memfis memfis      6 Nov 29 01:12 random2
+memfis@ubuntu:~$
+---------------------3----------------------
+memfis@ubuntu:~$ sudo adduser utest
+Adding user `utest' ...
+Adding new group `utest' (1001) ...
+Adding new user `utest' (1001) with group `utest' ...
+Creating home directory `/home/utest' ...
+Copying files from `/etc/skel' ...
+New password:
+Retype new password:
+passwd: password updated successfully
+Changing the user information for utest
+Enter the new value, or press ENTER for the default
+        Full Name []: utest
+        Room Number []:
+        Work Phone []:
+        Home Phone []:
+        Other []:
+Is the information correct? [Y/n] y
+memfis@ubuntu:~$ sudo usermod -aG sudo utest
+memfis@ubuntu:~$ ls -al /home
+total 16
+drwxr-xr-x  4 root   root   4096 Nov 29 01:36 .
+drwxr-xr-x 20 root   root   4096 Nov 21 04:52 ..
+drwxr-xr-x 17 memfis memfis 4096 Nov 29 01:12 memfis
+drwxr-xr-x  2 utest  utest  4096 Nov 29 01:36 utest
+
+---------------------4------------------------
+memfis@ubuntu:~$ sudo groupadd developer
+memfis@ubuntu:~$ sudo useradd -m -G developer -s /bin/bash udev1
+memfis@ubuntu:~$ sudo useradd -m -G developer -s /bin/bash udev2
+memfis@ubuntu:~$ sudo passwd udev1
+New password:
+Retype new password:
+passwd: password updated successfully
+memfis@ubuntu:~$ sudo passwd udev2
+New password:
+Retype new password:
+passwd: password updated successfully
+memfis@ubuntu:~$
+
+memfis@ubuntu:~$ mkdir dirdev                      -- создаём директорию для разработчиков
+memfis@ubuntu:~$ sudo chgrp -R developer dirdev   -- присваиваем группу директории
+memfis@ubuntu:~$ sudo chmod -R 2770 dirdev        -- права наследование для всех файлов 2 и для владельца и группы полные права 7 для остальных 0
+memfis@ubuntu:~$ ls -l|grep dirdev
+drwxrws--- 2 memfis developer   4096 Nov 29 02:24 dirdev
+
+memfis@ubuntu:/home$ su udev1   --меняем пользователя 
+udev1@ubuntu:/home/memfis/dirdev$ echo test>file1  -- создаём файл с текстом в директории разработчиков от имени udev1
+udev1@ubuntu:/home/memfis/dirdev$ su udev2         -- измняем file1 созданные пользователем udev1 под другим пользователем состоящим в тойже групп udev2
+Password:
+udev2@ubuntu:/home/memfis/dirdev$ cat file1
+test
+udev2@ubuntu:/home/memfis/dirdev$ echo test2>>file1
+udev2@ubuntu:/home/memfis/dirdev$ cat file1
+test
+test2
+udev2@ubuntu:/home/memfis/dirdev$
+
+------------------------5-------------------------------
+memfis@ubuntu:~/dirdev$ mkdir data   -- создаём подкаталог обмена файлами 
+memfis@ubuntu:~/dirdev$ sudo chmod 1770 data --- задаём права каталогу где 1 это спецаальные права стики бит, что позволит избежать удаления файлов другуми пользователями за исклицением владельца файла.
+memfis@ubuntu:~/dirdev$ ls -l
+total 8
+drwxrws--T 2 memfis developer 4096 Nov 29 03:17 data  -- праверили обозначение T указывает на назначенный стики бит 
+memfis@ubuntu:~/dirdev$ su udev1
+Password:
+udev1@ubuntu:/home/memfis/dirdev$ cd data/
+udev1@ubuntu:/home/memfis/dirdev/data$ echo testdel>test1  -- логинисмся под другим пользователем и содаём файл
+udev1@ubuntu:/home/memfis/dirdev/data$ su udev2            --- логинимся под другим пользователем пробуем удалиться файл созданный пользователем udev1, получаем отказ Operation not permitted  
+Password:
+udev2@ubuntu:/home/memfis/dirdev/data$ rm -f test1
+rm: cannot remove 'test1': Operation not permitted    
+ 
+-------------------------6------------------------------
+memfis@ubuntu:~$ mkdir dir1
+memfis@ubuntu:~$ sudo chgrp -R developer dir1
+memfis@ubuntu:~$ ls -l|grep dir1
+drwxrwxr-x 2 memfis developer   4096 Nov 29 03:40 dir1
+memfis@ubuntu:~$ echo test> /home/memfis/dir1/file1
+memfis@ubuntu:~$ echo test> /home/memfis/dir1/file1
+memfis@ubuntu:~$ ls -l dir1/
+total 8
+-rw-rw-r-- 1 memfis memfis 5 Nov 29 03:44 file1
+-rw-rw-r-- 1 memfis memfis 5 Nov 29 03:47 file2
+
+------------------------7------------------------------
+memfis@ubuntu:~$ sudo chmod 2710 dir1 -- задаём права для целевой директории
+memfis@ubuntu:~/dir1$ touch file3  --создаём файл 
+memfis@ubuntu:~/dir1$ echo test>file3 -- записываем в файл
+memfis@ubuntu:~/dir1$ echo test>file4 --- еще один
+memfis@ubuntu:~/dir1$ su udev1     --- логинимся под другим пользователем
+Password:
+udev1@ubuntu:/home/memfis/dir1$ ls -l   -- просмотр директории отказано в доступе
+ls: cannot open directory '.': Permission denied
+udev1@ubuntu:/home/memfis/dir1$ cat file3 file4   -- простомр файлов разрешён
+test
+test
+udev1@ubuntu:/home/memfis/dir1$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
