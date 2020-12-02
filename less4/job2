@@ -1,0 +1,12 @@
+#!/bin/bash
+
+dir=`ls|grep year`
+
+for i in `echo $dir | sed -e s/,/' '/g`; do
+ if [[ -d "$i" ]];
+then echo "the existing directory will be deleted";rm -f -R year*
+fi
+done
+
+mkdir -p year{2017..2020}/mounth{1..12};touch year{2017..2020}/mounth{1..12}/00{1..2}
+echo "file001"|tee year*/mounth*/001;echo "file002"|tee year*/mounth*/002

@@ -1,0 +1,22 @@
+sudo chmod -R 2770 dirdev
+   
+
+
+
+   
+mkdir -p year{2017..2020}/mounth{1..12};touch year{2017..2020}/mounth{1..12}/00{1..2}
+echo "file001"|tee year*/mounth*/001;echo "file002"|tee year*/mounth*/002
+
+
+echo "file001"|tee mounth*/file1>file1
+s
+
+#!/bin/bash -x
+if [ -f "file001" ];
+then echo file1>file001
+else echo "no file"
+fi
+~   
+
+
+if [ -f "file001" ];then echo file1>file001 else echo "no file" fi
