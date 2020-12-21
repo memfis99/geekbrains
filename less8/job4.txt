@@ -1,0 +1,65 @@
+############################# add user ############################
+root@ubuntu:/etc/nginx# adduser gw
+Adding user `gw' ...
+Adding new group `gw' (1005) ...
+Adding new user `gw' (1004) with group `gw' ...
+Creating home directory `/home/gw' ...
+Copying files from `/etc/skel' ...
+New password:
+Retype new password:
+passwd: password updated successfully
+Changing the user information for gw
+Enter the new value, or press ENTER for the default
+        Full Name []: gw
+        Room Number []:
+        Work Phone []:
+        Home Phone []:
+        Other []:
+Is the information correct? [Y/n] y
+root@ubuntu:/etc/nginx#
+root@ubuntu:/etc/nginx# usermod -aG sudo gw
+
+##########################################
+root@ubuntu:/etc/ssh# vi sshd_config
+#################set setting###############
+PasswordAuthentication no
+###########################################
+###########################################
+ssh-keygen
+###########################################
+gw@debianSRV1:~$ cat id_rsa.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCoKKXGXsVjwHkyulkZ17det3PS5KR+cALBbK/4F+ch                                                                   Sw4UK0T/Piph2YjKSoOWTZdRsrEl1jsrr8IncI/8svfbDpaW0WpwqmecHQu/Y0mAM/m2Et5SprcOM9dZ                                                                   pdAVBsaz0hnwWcZITJJuI8JCP3OzaahdVi76jltveWYeyahPz9NbhmT5dDzRPBHTe+Abzr/njjcpS+VN                                                                   LNZe6QTdFfSQ9ERupmMSmb5SmkX4t9zEM5f6/PC1AtDTwyyZJUZaJHJV1RhCeKvJL65+b0BWayDDkeGi                                                                   PfwBb09rObCxew63gx8YrGpJB0vy7VntG9CRWfD0GQxr4t7pz5VxrFRsnpK3 gw@debianSRV1
+
+
+################################## add key to file authorized_keys #####################################
+root@ubuntu:/home/gw/.ssh# cat authorized_keys 
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCoKKXGXsVjwHkyulkZ17det3PS5KR+cALBbK/4F+chSw4UK0T/Piph2YjKSoOWTZdRsrEl1jsrr8IncI/8svfbDpaW0WpwqmecHQu/Y0mAM/m2Et5SprcOM9dZpdAVBsaz0hnwWcZITJJuI8JCP3OzaahdVi76jltveWYeyahPz9NbhmT5dDzRPBHTe+Abzr/njjcpS+VNLNZe6QTdFfSQ9ERupmMSmb5SmkX4t9zEM5f6/PC1AtDTwyyZJUZaJHJV1RhCeKvJL65+b0BWayDDkeGiPfwBb09rObCxew63gx8YrGpJB0vy7VntG9CRWfD0GQxr4t7pz5VxrFRsnpK3
+
+root@ubuntu:/home/gw/.ssh# chmod 600 authorized_keys 
+
+#################### check connect ssh with key ###############################
+gw@debianSRV1:~$ ^C
+gw@debianSRV1:~$ ^C
+gw@debianSRV1:~$ ^C
+gw@debianSRV1:~$ ^C
+gw@debianSRV1:~$ ^C
+gw@debianSRV1:~$ ^C
+gw@debianSRV1:~$ ^C
+gw@debianSRV1:~$ ^C
+gw@debianSRV1:~$ ssh gw@192.168.1.5
+Welcome to Ubuntu 20.04.1 LTS (GNU/Linux 5.4.0-56-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+67 updates can be installed immediately.
+28 of these updates are security updates.
+To see these additional updates run: apt list --upgradable
+
+Your Hardware Enablement Stack (HWE) is supported until April 2025.
+Last login: Sat Dec 19 06:21:17 2020 from 192.168.1.6
+gw@ubuntu:~$
+############################## connect with key successfull  It works ##############################################
+
+

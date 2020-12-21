@@ -1,0 +1,8 @@
+root@ubuntu:/etc/nginx# sudo iptables -A INPUT -p tcp -s 192.168.1.0/24  --dport 22 -j ACCEPT
+
+root@ubuntu:/etc/nginx# iptables -nL --line-numbers
+Chain INPUT (policy ACCEPT)
+num  target     prot opt source               destination
+1    ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:80
+2    ACCEPT     tcp  --  192.168.1.0/24       0.0.0.0/0            tcp dpt:22
+3    DROP       tcp  --  0.0.0.0/0            0.0.0.0/0
