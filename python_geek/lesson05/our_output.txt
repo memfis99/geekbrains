@@ -1,0 +1,5 @@
+Line number 1 has 1 words.
+Line number 2 has 1 words.
+Line number 3 has 3 words.
+Line number 4 has 1 words.
+Line number 5 has 1 words.
