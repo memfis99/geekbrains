@@ -1,0 +1,94 @@
+
+boot  etc  lab1.sh  lab3.sh  lib64  mnt    proc  run   srv   testlab1  usr
+[root@localhost /]# ./lab3.sh
+umount: /dev/sdb1: not mounted
+umount: /dev/sdb2: not mounted
+100+0 records in
+100+0 records out
+104857600 bytes (105 MB) copied, 0.265726 s, 395 MB/s
+this machine is going to reboot now. After reboot, run lab3.sh
+again to complete the procedure
+press enter to continue
+Using username "root".
+root@192.168.2.135's password:
+Send automatic password
+Last login: Wed Sep  8 07:58:30 2021 from 192.168.2.1
+[root@localhost ~]# lsblk
+NAME            MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda               8:0    0   20G  0 disk
++-sda1            8:1    0    1G  0 part /boot
+L-sda2            8:2    0   19G  0 part
+  +-centos-root 253:0    0   17G  0 lvm  /
+  L-centos-swap 253:1    0    2G  0 lvm  [SWAP]
+sdb               8:16   0    2G  0 disk
+sr0              11:0    1  4.4G  0 rom
+[root@localhost ~]# lsblk
+NAME            MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda               8:0    0   20G  0 disk
++-sda1            8:1    0    1G  0 part /boot
+L-sda2            8:2    0   19G  0 part
+  +-centos-root 253:0    0   17G  0 lvm  /
+  L-centos-swap 253:1    0    2G  0 lvm  [SWAP]
+sdb               8:16   0    2G  0 disk
+sr0              11:0    1  4.4G  0 rom
+[root@localhost ~]# lsblk -f
+NAME            FSTYPE      LABEL           UUID                                   MOUNTPOINT
+sda
++-sda1          xfs                         793eb8fa-9b1c-4892-9582-4673572b2c15   /boot
+L-sda2          LVM2_member                 IqZaDz-1zD9-Y4eh-LAOL-p4VT-pXHs-Jpc20o
+  +-centos-root xfs                         eeaa4451-cbb9-4698-9c56-c7f69a9422a6   /
+  L-centos-swap swap                        84db79f3-3037-43d1-80cb-5a3dedbefc37   [SWAP]
+sdb
+sr0             iso9660     CentOS 7 x86_64 2020-11-04-11-36-43-00
+[root@localhost ~]# ./lab3.sh
+-bash: ./lab3.sh: No such file or directory
+[root@localhost ~]# cd ..
+[root@localhost /]# ls
+bin   dev  home     lab2.sh  lib    media  opt   root  sbin  sys       tmp  var
+boot  etc  lab1.sh  lab3.sh  lib64  mnt    proc  run   srv   testlab1  usr
+[root@localhost /]# ./lab3.sh
+umount: /dev/sdb1: mountpoint not found
+umount: /dev/sdb2: mountpoint not found
+Error: Partition(s) 2 on /dev/sdb have been written, but we have been unable to inform the kernel of the change, probably because it/they                                  are in use.  As a result, the old partition(s) will remain in use.  You should reboot now before making further changes.
+Warning: Unable to open /dev/sr0 read-write (Read-only file system).  /dev/sr0 has been opened read-only.
+mke2fs 1.42.9 (28-Dec-2013)
+Filesystem label=
+OS type: Linux
+Block size=1024 (log=0)
+Fragment size=1024 (log=0)
+Stride=0 blocks, Stripe width=0 blocks
+51000 inodes, 203776 blocks
+10188 blocks (5.00%) reserved for the super user
+First data block=1
+Maximum filesystem blocks=33816576
+25 block groups
+8192 blocks per group, 8192 fragments per group
+2040 inodes per group
+Superblock backups stored on blocks:
+        8193, 24577, 40961, 57345, 73729
+
+Allocating group tables: done
+Writing inode tables: done
+Creating journal (4096 blocks): done
+Writing superblocks and filesystem accounting information: done
+
+  Physical volume "/dev/sdb2" successfully created.
+  Volume group "vgdata" successfully created
+  Logical volume "lvdata" created.
+meta-data=/dev/vgdata/lvdata     isize=512    agcount=4, agsize=32000 blks
+         =                       sectsz=512   attr=2, projid32bit=1
+         =                       crc=1        finobt=0, sparse=0
+data     =                       bsize=4096   blocks=128000, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0 ftype=1
+log      =internal log           bsize=4096   blocks=855, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0
+cp: omitting directory ‘/etc/alternatives’
+cp: omitting directory ‘/etc/audisp’
+cp: omitting directory ‘/etc/audit’
+  WARNING: Reducing active logical volume to 400.00 MiB.
+  THIS MAY DESTROY YOUR DATA (filesystem etc.)
+  Size of logical volume vgdata/lvdata changed from 500.00 MiB (125 extents) to 400.00 MiB (100 extents).
+  Logical volume vgdata/lvdata successfully resized.
+Reboot yuor system now
