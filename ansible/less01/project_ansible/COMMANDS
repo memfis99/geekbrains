@@ -1,0 +1,8 @@
+ansible all -i inventory/hosts.ini -k -K -u root -m ping   -- check hosts ping
+ansible all -i inventory/hosts.ini -k -K -u root -a "uptime" -- check uptime hosts
+ansible all -i inventory/hosts.ini -k -K -u root -a "yum install vim -y" -- install vim on hosts
+ANSIBLE_CONFIG=ansible.cfg ansible-playbook -i inventory/hosts.ini playbook.yml -k -K -u root  -- start playbook
+
+
+
+

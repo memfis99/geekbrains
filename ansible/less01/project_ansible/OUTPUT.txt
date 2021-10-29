@@ -1,0 +1,11 @@
+memfis@ubuntu:~/project_ansible/Install nginx$ ANSIBLE_CONFIG=ansible.cfg ansible-playbook -i inventory/hosts.ini playbook.yml -k -K -u root
+SSH password:
+BECOME password[defaults to SSH password]:
+[WARNING]: Could not match supplied host pattern, ignoring: appservers
+
+PLAY [appservers] ***************************************************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY RECAP **********************************************************************************************************************************************************************************************************************
+
+memfis@ubuntu:~/project_ansible/Install nginx$
