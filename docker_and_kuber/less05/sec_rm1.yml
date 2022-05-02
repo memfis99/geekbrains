@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: sec-rm1
+data:
+  REDMINE_SECRET_KEY_BASE: c3VwZXJzZWNyZXRrZXkK 

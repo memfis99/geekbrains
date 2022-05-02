@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: sec-pg1-rm1
+data:
+  REDMINE_DB_PASSWORD: testpassword
